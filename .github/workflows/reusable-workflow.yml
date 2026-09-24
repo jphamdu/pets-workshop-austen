@@ -1,0 +1,25 @@
+name: Reusable Deploy Workflow
+
+on:
+  workflow_call:
+    inputs:
+      deploy-ref:
+        description: 'Git ref to deploy (commit SHA, tag, or branch).'
+        required: true
+        type: string
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Deploy
+        run: |
+          echo "Deploying ref ${{ inputs.deploy-ref }}"
+          
