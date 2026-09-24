@@ -68,3 +68,5 @@ jobs:
       - name: Run e2e tests
         working-directory: ./app/client
         run: npx playwright test
+
+        #this is a test comment to see if the workflow runs correctly
