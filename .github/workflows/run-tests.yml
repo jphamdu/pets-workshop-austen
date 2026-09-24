@@ -11,27 +11,27 @@ permissions:
 
 jobs:
   test-api:
-  runs-on: ubuntu-latest
-  strategy:
-    matrix:
-      python-version: ['3.12', '3.13', '3.14']
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.12', '3.13', '3.14']
 
-  steps:
-    - uses: actions/checkout@v7
+    steps:
+      - uses: actions/checkout@v7
 
-    - name: Setup Python environment
+      - name: Setup Python environment
         id: seed
         uses: ./.github/actions/setup-python-env
         with:
           python-version: ${{ matrix.python-version }}
           database-path: app/server/test_dogshelter.db
-          
-    - name: Run tests
+
+      - name: Run tests
         run: python -m unittest test_app -v
         working-directory: ./app/server
         env:
           DATABASE_PATH: ${{ steps.seed.outputs.database-file }}
-
 
   test-e2e:
     runs-on: ubuntu-latest
@@ -65,5 +65,3 @@ jobs:
         run: npx playwright test
         env:
           DATABASE_PATH: ${{ steps.seed.outputs.database-file }}
-
-        #this is a test comment to see if the workflow runs correctly
